@@ -67,10 +67,69 @@ The mean() and var() functions can be used to compute the mean and variance of a
 
 ```{r}
 set.seed(3)
-y=rnorm(100)
+y <- rnorm(100)
 mean(y)
 var(y)
 sqrt(var(y))
 sd(y)
 ```
+
+### 2.3.2 Graphics
+
+The plot() function is the primary way to plot data in R. For instance, plot(x,y) produces a scatterplot of the numbers in x versus the numbers in y.
+
+```{r}
+x <- rnorm(100)
+y <- rnorm(100)
+plot(x,y,xlab="this is the x-axis",ylab="this is the y-axis",main="Plot of X vs Y")
+```
+
+We will often want to save the output of an R plot. The command that we use to do this will depend on the file type that we would like to create. For instance, to create a pdf, we use the pdf() function. The function dev.off() indicates to R that we are done creating the plot.
+
+```{r}
+pdf("Figure.pdf")
+plot(x,y,col="green")
+dev.off()
+```
+
+The function seq() can be used to create a sequence of numbers. For instance, seq(a,b) makes a vector of integers between a and b.
+
+```{r}
+x <- seq(1,10)
+x
+x <- 1:10
+x
+x <- seq(-pi,pi,length=10)
+x
+```
+
+The contour() function produces a contour plot in order to represent three-dimensional data; it is like a topographical map. It takes three arguments:
+1. A vector of the x values
+2. A vector of the y values
+3. A matrix whose elements correspond to the z value (the third dimension) for each pair of (x,y) coordinates
+
+```{r}
+y <- x
+f <- outer(x,y,function(x,y)cos(y)/(1+x^2))
+contour(x,y,f)
+contour(x,y,f,nlevels=45,add=T)
+fa=(f-t(f))/2
+contour(x,y,fa,nlevels=15)
+```
+
+The image() function works the same way as contour(). except that it produces a color-coded plot whose colors depend on the z value. This is known as heatmap. Alternatively, persp() can be used to produce a three-dimensional plot.
+
+```{r}
+image(x,y,fa)
+persp(x,y,fa)
+persp(x,y,fa,theta=30)
+persp(x,y,fa,theta=30,phi=20)
+persp(x,y,fa,theta=30,phi=70)
+persp(x,y,fa,theta=30,phi=40)
+```
+
+### 2.3.3 Indexing Data
+
+
+
 
