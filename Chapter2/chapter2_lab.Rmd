@@ -176,5 +176,97 @@ The dim() function outputs the number of rows followed by the number of columns 
 dim(A)
 ```
 
-# 2.3.4 Loading Data
+### 2.3.4 Loading Data
+
+For most analyses, the first step involves importing a data set into R. The read.table() function is one of the primary ways to do this. We can use the function write.table() to export data.
+
+Once the data has been loaded, the fix() function can be used to view it in a spreadsheet like window.
+
+```{r}
+Auto <- read.table("Auto.data")
+#fix(Auto)
+```
+
+This particular data set has not been loaded correctly, because R has assumed that the variable names are part of the data and so has included them in the first row. The data set also includes a number of missing observations, indicated by a question mark ?. Using the option header=T in the read.table() function tells R that the first line of the file contains the variable names, and using the option na.strings tells R that any time it sees a particular character or set of characters, it should be treated as a missing element of the data matrix.
+
+```{r}
+Auto <- read.table("Auto.data", header = T,na.strings = "?")
+#fix(Auto)
+```
+
+csv could also be readed in
+
+```{r}
+Auto <- read.csv("Auto.csv",header = T,na.strings = "?")
+#fix(Auto)
+dim(Auto)
+Auto[1:4,]
+```
+
+There are various ways to deal with the missing data. In this case, only five of the rows contain missing observations, and so we choose to use the na.omit() function to simply remove these rows.
+
+```{r}
+Auto <- na.omit(Auto)
+dim(Auto)
+```
+
+Once the data are loaded correctly, we can use names() to check variable names.
+
+```{r}
+names(Auto)
+```
+
+### 2.3.5 Additional Graphical and Numerical Summaries
+
+To refer to a variable, we must type the data set and the variable name joined with a $ symbol. Alternatively, we can use the attach() function in order to tell R to make the variables in this data frame available by name.
+
+```{r}
+plot(Auto$cylinders, Auto$mpg)
+attach(Auto)
+plot(cylinders, mpg)
+```
+
+one may prefer to treat the cylinders variable as a qualitative variable. The as.factor() function converts quantitative variables into qualitative variables.
+
+```{r}
+cylinders <- as.factor(cylinders)
+```
+
+If the variable plotted on the x-axis is categorial, then *boxplots* will automatically be produced by the plot() function.
+
+```{r}
+plot(cylinders, mpg)
+plot(cylinders, mpg, col="red")
+plot(cylinders, mpg, col="red", varwidth=T)
+plot(cylinders, mpg, col="red", varwidth=T, horizontal=T)
+plot(cylinders, mpg, col="red", varwidth=T, xlab="cylinders",ylab="MPG")
+```
+
+The hist() function can be used to plot a *histogram*. Note that col=2 has the same effect as col="red".
+
+```{r}
+hist(mpg)
+hist(mpg,col=2)
+hist(mpg,col=2,breaks=15)
+```
+
+The pairs() function creates a scatterplot matrix, for each pair of variables in any given data set.
+
+```{r}
+pairs(Auto)
+pairs(~ mpg + displacement + horsepower + weight + acceleration, Auto)
+```
+
+In conjunction with the plot() function, identify() provides a useful interactive method for identifying the value for a particular variable for points on a plot.
+
+```{r}
+plot(horsepower, mpg)
+identify(horsepower, mpg, name)
+```
+
+The summary() function produces a numerical summary of each variable in a particular data set.
+
+```{r}
+summary(Auto)
+```
 
